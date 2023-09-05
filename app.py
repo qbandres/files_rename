@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter import filedialog
 import os
 
@@ -26,21 +27,36 @@ def seleccionar_archivos():
         lbl_estado.config(text="Archivos renombrados exitosamente")
 
 # Crear la ventana de tkinter
-ventana = tk.Tk()
-ventana.title("Renombrar Archivos")
+root = tk.Tk()
+root.title("Renombrar Archivos")
+root.geometry("380x420+560+240")
+
+# Se configura la funcion para crear la pestaña
+my_notebook = ttk.Notebook(root,width=500,height = 500)
+my_notebook.pack()
+
+#Se confirgua la primera pestaña
+my_frame1 = tk.Frame(my_notebook)
+my_frame1.pack(fill = 'both',expand=1)
+my_notebook.add(my_frame1,text='rename_files')
+
+#Se confirgua la segunda pestaña
+my_frame2 = tk.Frame(my_notebook)
+my_frame2.pack(fill = 'both',expand=1)
+my_notebook.add(my_frame2,text='list_files')
 
 # Etiqueta y entrada para el nuevo nombre base
-lbl_nuevo_nombre = tk.Label(ventana, text="Nuevo Nombre Base:")
+lbl_nuevo_nombre = tk.Label(my_frame1, text="Nuevo Nombre Base:")
 lbl_nuevo_nombre.pack()
-entry_nuevo_nombre = tk.Entry(ventana)
+entry_nuevo_nombre = tk.Entry(my_frame1)
 entry_nuevo_nombre.pack()
 
 # Botón para seleccionar archivos
-btn_seleccionar = tk.Button(ventana, text="Seleccionar Archivos", command=seleccionar_archivos)
+btn_seleccionar = tk.Button(my_frame1, text="Seleccionar Archivos", command=seleccionar_archivos)
 btn_seleccionar.pack()
 
 # Etiqueta para mostrar el estado
-lbl_estado = tk.Label(ventana, text="")
+lbl_estado = tk.Label(my_frame1, text="")
 lbl_estado.pack()
 
-ventana.mainloop()
+root.mainloop()
