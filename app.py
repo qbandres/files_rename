@@ -26,6 +26,39 @@ def seleccionar_archivos():
         
         lbl_estado.config(text="Archivos renombrados exitosamente")
 
+
+from tkinter import filedialog
+import os
+import csv
+
+#Funciones para el listado de files
+def listar_documentos(carpeta):
+    documentos = []
+    for root, _, files in os.walk(carpeta):
+        for file in files:
+            documentos.append(file)
+    return documentos
+
+def generar_csv(carpeta, archivo_csv):
+    documentos = listar_documentos(carpeta)
+    with open(archivo_csv, 'w', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(["Numero","Documento"])
+        for i, documento in enumerate(documentos,start=1):
+            csvwriter.writerow([i,documento])
+
+def seleccionar_carpeta():
+    carpeta = filedialog.askdirectory()
+    carpeta_seleccionada.set(carpeta)
+
+def guardar_csv():
+    carpeta = carpeta_seleccionada.get()
+    if carpeta:
+        archivo_csv = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("Archivos CSV", "*.csv")])
+        if archivo_csv:
+            generar_csv(carpeta, archivo_csv)
+            mensaje_estado.set("CSV generado con éxito.")
+
 # Crear la ventana de tkinter
 root = tk.Tk()
 root.title("Renombrar Archivos")
@@ -45,6 +78,8 @@ my_frame2 = tk.Frame(my_notebook)
 my_frame2.pack(fill = 'both',expand=1)
 my_notebook.add(my_frame2,text='list_files')
 
+
+#Codigo primera pestaña
 # Etiqueta y entrada para el nuevo nombre base
 lbl_nuevo_nombre = tk.Label(my_frame1, text="Nuevo Nombre Base:")
 lbl_nuevo_nombre.pack()
@@ -58,5 +93,19 @@ btn_seleccionar.pack()
 # Etiqueta para mostrar el estado
 lbl_estado = tk.Label(my_frame1, text="")
 lbl_estado.pack()
+
+#codigo segunda pestaña
+
+carpeta_seleccionada = tk.StringVar()
+mensaje_estado = tk.StringVar()
+
+
+tk.Label(my_frame2, text="Carpeta:").grid(row=0, column=0)
+tk.Entry(my_frame2, textvariable=carpeta_seleccionada).grid(row=0, column=1)
+tk.Button(my_frame2, text="Seleccionar Carpeta", command=seleccionar_carpeta).grid(row=0, column=2)
+
+tk.Button(my_frame2, text="Generar CSV", command=guardar_csv).grid(row=1, column=0, columnspan=3)
+
+tk.Label(root, textvariable=mensaje_estado).pack()
 
 root.mainloop()
