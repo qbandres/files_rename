@@ -27,30 +27,20 @@ def seleccionar_archivos():
 
 # Crear la ventana de tkinter
 ventana = tk.Tk()
-ventana.title("Aplicación de Renombrar Archivos")
+ventana.title("Renombrar Archivos")
 
-# Crear un widget Notebook (pestañas)
-notebook = tk.ttk.Notebook(ventana)
-
-# Pestaña "rename"
-frame_rename = tk.Frame(notebook)
-notebook.add(frame_rename, text="Rename")
-
-# Etiqueta y entrada para el nuevo nombre base en la pestaña "rename"
-lbl_nuevo_nombre = tk.Label(frame_rename, text="Nuevo Nombre Base:")
+# Etiqueta y entrada para el nuevo nombre base
+lbl_nuevo_nombre = tk.Label(ventana, text="Nuevo Nombre Base:")
 lbl_nuevo_nombre.pack()
-entry_nuevo_nombre = tk.Entry(frame_rename)
+entry_nuevo_nombre = tk.Entry(ventana)
 entry_nuevo_nombre.pack()
 
-# Botón para seleccionar archivos en la pestaña "rename"
-btn_seleccionar = tk.Button(frame_rename, text="Seleccionar Archivos", command=seleccionar_archivos)
+# Botón para seleccionar archivos
+btn_seleccionar = tk.Button(ventana, text="Seleccionar Archivos", command=seleccionar_archivos)
 btn_seleccionar.pack()
 
-# Etiqueta para mostrar el estado en la pestaña "rename"
-lbl_estado = tk.Label(frame_rename, text="")
+# Etiqueta para mostrar el estado
+lbl_estado = tk.Label(ventana, text="")
 lbl_estado.pack()
-
-# Agregar el widget Notebook a la ventana
-notebook.pack()
 
 ventana.mainloop()
